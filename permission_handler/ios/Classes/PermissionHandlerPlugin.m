@@ -3,8 +3,9 @@
 
 @implementation PermissionHandlerPlugin {
     PermissionManager *_Nonnull _permissionManager;
-    _Nullable FlutterResult _methodResult;
 }
+
+static _Nullable FlutterResult _methodResult;
 
 - (instancetype)initWithPermissionManager:(PermissionManager *)permissionManager {
     self = [super init];
@@ -41,11 +42,11 @@
         
         [_permissionManager
          requestPermissions:permissions completion:^(NSDictionary *permissionRequestResults) {
-             if (self->_methodResult != nil) {
-                 self->_methodResult(permissionRequestResults);
+             if (_methodResult != nil) {
+                 _methodResult(permissionRequestResults);
              }
              
-             self->_methodResult = nil;
+             _methodResult = nil;
          }];
         
     } else if ([@"shouldShowRequestPermissionRationale" isEqualToString:call.method]) {
